@@ -28,6 +28,8 @@ describe "Signing In" do
 
     expect(page).to have_text("Welcome back, #{user.name}!")
     expect(page).to have_link(user.name)
+    expect(page).to have_link('Sign Out')
+
     expect(page).not_to have_link('Sign In')
     expect(page).not_to have_link('Sign Up')
   end
@@ -45,10 +47,10 @@ describe "Signing In" do
     click_button 'Sign In'
 
     expect(page).to have_text('Invalid')
-    expect(page).not_to have_link(user.name)
     expect(page).to have_link('Sign In')
     expect(page).to have_link('Sign Up')
+
+    expect(page).not_to have_link(user.name)
+    expect(page).not_to have_link('Sign Out')
   end
-
-
 end
