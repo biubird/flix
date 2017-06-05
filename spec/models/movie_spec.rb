@@ -132,7 +132,9 @@ end
   it "deletes associated reviews" do
     movie = Movie.create(movie_attributes)
 
-    movie.reviews.create(review_attributes)
+    review = movie.reviews.new(review_attributes)
+    review.user = User.create!(user_attributes)
+    review.save!
 
     expect {
       movie.destroy
@@ -141,10 +143,11 @@ end
 
   it "calculates the average number of review stars" do
     movie = Movie.create(movie_attributes)
+    user = User.create!(user_attributes)
 
-    movie.reviews.create(review_attributes(stars: 1))
-    movie.reviews.create(review_attributes(stars: 3))
-    movie.reviews.create(review_attributes(stars: 5))
+    movie.reviews.create!(review_attributes(stars: 1, user: user))
+    movie.reviews.create!(review_attributes(stars: 3, user: user))
+    movie.reviews.create!(review_attributes(stars: 5, user: user))
 
     expect(movie.average_stars).to eq(3)
   end
